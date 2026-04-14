@@ -280,7 +280,6 @@ on conflict (position) do nothing;
 insert into public.site_settings (setting_key, setting_value)
 values
     ('brand_name', 'Pantheverse'),
-    ('discord_invite_url', 'https://discord.gg/9qpju32M2S'),
     ('home_hero_title', 'Find your orbit. Stay for the chaos.'),
     ('home_hero_subtitle', 'A vibrant corner of the internet where chill thinkers, late-night gamers, meme fiends, and lovable weirdos collide. Bring your whole self - the universe is big enough for every mood.'),
     ('footer_text', 'Pantheverse · Est. 2020 · Crafted by Astie & Andualem')

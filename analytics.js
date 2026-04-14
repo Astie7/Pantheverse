@@ -64,14 +64,6 @@
                     href: nextUrl.href
                 });
             }
-
-            if (/discord\.gg|discord\.com\/invite/i.test(nextUrl.href)) {
-                sendEvent({
-                    event_type: 'discord_click',
-                    page_path: pagePath,
-                    href: nextUrl.href
-                });
-            }
         }, { passive: true });
     }
 

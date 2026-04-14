@@ -88,10 +88,6 @@ window.addEventListener('DOMContentLoaded', function() {
             '          <input id="pref-compact-topbar" type="checkbox">',
             '          <span><strong>Compact top bar</strong><small>Keep navigation tighter on every page.</small></span>',
             '        </label>',
-            '        <label class="account-toggle">',
-            '          <input id="pref-open-discord" type="checkbox">',
-            '          <span><strong>Open Discord in new tab</strong><small>Prevent accidental site exits while editing.</small></span>',
-            '        </label>',
             '      </section>',
             '      <section class="account-settings-panel">',
             '        <h4>Performance</h4>',
@@ -157,7 +153,6 @@ window.addEventListener('DOMContentLoaded', function() {
         const accountSettingsModal = document.getElementById('account-settings-modal');
         const accountSettingsCloseXBtn = document.getElementById('account-settings-close-x');
         const prefThemeModeSelect = document.getElementById('pref-theme-mode');
-        const prefOpenDiscordInput = document.getElementById('pref-open-discord');
         const prefCompactTopbarInput = document.getElementById('pref-compact-topbar');
         const prefLiteModeInput = document.getElementById('pref-lite-mode');
         const prefMinEffectsInput = document.getElementById('pref-min-effects');
@@ -184,7 +179,6 @@ window.addEventListener('DOMContentLoaded', function() {
         const LITE_STORAGE_KEY = 'pv_lite_mode';
         const DEFAULT_SETTINGS = {
             themeMode: 'bright',
-            openDiscordInNewTab: true,
             compactTopbar: false,
             liteMode: false,
             minEffects: false,
@@ -235,7 +229,6 @@ window.addEventListener('DOMContentLoaded', function() {
             const candidate = raw || {};
             return {
                 themeMode: ['bright', 'dark', 'auto'].includes(candidate.themeMode) ? candidate.themeMode : DEFAULT_SETTINGS.themeMode,
-                openDiscordInNewTab: typeof candidate.openDiscordInNewTab === 'boolean' ? candidate.openDiscordInNewTab : DEFAULT_SETTINGS.openDiscordInNewTab,
                 compactTopbar: typeof candidate.compactTopbar === 'boolean' ? candidate.compactTopbar : DEFAULT_SETTINGS.compactTopbar,
                 liteMode: typeof candidate.liteMode === 'boolean' ? candidate.liteMode : DEFAULT_SETTINGS.liteMode,
                 minEffects: typeof candidate.minEffects === 'boolean' ? candidate.minEffects : DEFAULT_SETTINGS.minEffects,
@@ -309,22 +302,11 @@ window.addEventListener('DOMContentLoaded', function() {
             document.body.classList.toggle('pref-min-effects', !!state.userSettings.minEffects);
             document.body.classList.toggle('pref-no-transitions', !state.userSettings.smoothTransitions);
             document.body.classList.toggle('pref-editor-focus', !!state.userSettings.emphasizeEditorTools);
-
-            const openInNewTab = !!state.userSettings.openDiscordInNewTab;
-            document.querySelectorAll('a[data-setting-key="discord_invite_url"]').forEach(function(link) {
-                link.target = openInNewTab ? '_blank' : '_self';
-                if (openInNewTab) {
-                    link.setAttribute('rel', 'noopener');
-                } else {
-                    link.removeAttribute('rel');
-                }
-            });
         }
 
         function setSettingsForm(settings) {
             const normalized = normalizeSettings(settings);
             if (prefThemeModeSelect) prefThemeModeSelect.value = normalized.themeMode;
-            if (prefOpenDiscordInput) prefOpenDiscordInput.checked = normalized.openDiscordInNewTab;
             if (prefCompactTopbarInput) prefCompactTopbarInput.checked = normalized.compactTopbar;
             if (prefLiteModeInput) {
                 prefLiteModeInput.checked = normalized.liteMode || AUTO_LOW_END_MODE;
@@ -339,7 +321,6 @@ window.addEventListener('DOMContentLoaded', function() {
         function readSettingsForm() {
             return normalizeSettings({
                 themeMode: prefThemeModeSelect ? prefThemeModeSelect.value : DEFAULT_SETTINGS.themeMode,
-                openDiscordInNewTab: prefOpenDiscordInput ? !!prefOpenDiscordInput.checked : DEFAULT_SETTINGS.openDiscordInNewTab,
                 compactTopbar: prefCompactTopbarInput ? !!prefCompactTopbarInput.checked : DEFAULT_SETTINGS.compactTopbar,
                 liteMode: prefLiteModeInput ? (!AUTO_LOW_END_MODE && !!prefLiteModeInput.checked) : DEFAULT_SETTINGS.liteMode,
                 minEffects: prefMinEffectsInput ? !!prefMinEffectsInput.checked : DEFAULT_SETTINGS.minEffects,
