@@ -1,2 +1,2 @@
 # pantheverse-site
-Universe · Est. 2020
+Pantheverse · Est. 2020
